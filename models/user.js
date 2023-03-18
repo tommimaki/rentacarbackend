@@ -6,6 +6,10 @@ const userSchema = new mongoose.Schema({
   email: String,
   phonenumber: Number,
   password: String,
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 userSchema.set("toJSON", {
   transform: (document, returnedObject) => {

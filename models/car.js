@@ -2,12 +2,28 @@
 const mongoose = require("mongoose");
 
 const CarSchema = new mongoose.Schema({
-  make: String,
-  model: String,
-  year: Number,
-  price: String,
-  description: String,
-  // Add more fields as needed
+  make: {
+    type: String,
+    required: true,
+  },
+  model: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  price: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+  },
 });
 
 CarSchema.set("toJSON", {

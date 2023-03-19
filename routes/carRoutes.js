@@ -1,21 +1,23 @@
 require("dotenv").config();
+const config = require("../utils/config");
+const { MongoClient } = require("mongodb");
+const mongodb = require("mongodb");
+const mongoose = require("mongoose");
+const { Readable } = require("stream");
 const express = require("express");
 const router = express.Router();
 const Car = require("../models/Car");
 const multer = require("multer");
-// const GridFsStorage = require("multer-gridfs-storage");
 const { GridFsStorage } = require("multer-gridfs-storage");
 
-//TODO config file
-const PASS = process.env.PASS;
-const mongoURI = `mongodb+srv://admin:${PASS}@rentacar.bhctcbl.mongodb.net/?retryWrites=true&w=majority`;
+const mongoURI = config.MONGODB_URI;
 
 const storage = new GridFsStorage({
   url: mongoURI,
   file: (req, file) => {
     return {
       filename: `${Date.now()}-${file.originalname}`,
-      bucketName: "uploads",
+      bucketName: "uploads.files",
     };
   },
 });
@@ -40,6 +42,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     const { make, model, year, description, price } = req.body;
     const image = req.file;
 
+    console.log("Image file received: ", image);
     if (!make || !model || !year) {
       return res
         .status(400)
@@ -52,8 +55,13 @@ router.post("/", upload.single("image"), async (req, res) => {
       year,
       description,
       price,
-      ...(image && { imageUrl: `/api/cars/image/${image.filename}` }),
     });
+
+    if (image) {
+      newCar.imageUrl = `/api/cars/image/${image.filename}`;
+    }
+
+    console.log("New car instance: ", newCar);
     await newCar.save();
 
     res.status(201).json({ message: "Car added successfully.", car: newCar });
@@ -118,20 +126,51 @@ router.delete("/:carId", async (req, res) => {
 });
 
 router.get("/image/:filename", async (req, res) => {
-  try {
-    const { filename } = req.params;
-    const file = await gfs.files.findOne({ filename });
+  const filename = req.params.filename;
+  console.log(`Image requested: ${filename}`);
 
-    if (!file || file.length === 0) {
+  const db = mongoose.connection.db; // Use the existing connection
+  const bucket = new mongoose.mongo.GridFSBucket(db, { bucketName: "uploads" });
+
+  try {
+    console.log("Finding the file in the bucket.");
+    const files = await bucket.find({ filename }).toArray();
+    console.log("Files found:", files);
+
+    if (!files || files.length === 0) {
+      console.log(`Image not found: ${filename}`);
       return res.status(404).json({ message: "Image not found." });
     }
 
-    const readStream = gfs.createReadStream({ filename });
-    readStream.pipe(res);
-  } catch (error) {
-    res.status(500).json({
+    console.log(`Found file: ${JSON.stringify(files[0])}`);
+
+    if (
+      files[0].contentType === "image/jpeg" ||
+      files[0].contentType === "image/png"
+    ) {
+      const readStream = bucket.openDownloadStreamByName(filename);
+      readStream.pipe(res);
+      readStream.on("error", (err) => {
+        console.log(`Error streaming the image: ${err}`);
+        res.status(500).json({
+          message: "An error occurred while streaming the image.",
+          error: err,
+        });
+      });
+      readStream.on("finish", () => {
+        console.log(`Image streamed: ${filename}`);
+      });
+    } else {
+      console.log(
+        `Unsupported content type: ${files[0].contentType}, filename: ${filename}`
+      );
+      res.status(404).json({ message: "Image not found." });
+    }
+  } catch (err) {
+    console.log(`Error retrieving the image: ${err}`);
+    return res.status(500).json({
       message: "An error occurred while retrieving the image.",
-      error,
+      error: err,
     });
   }
 });

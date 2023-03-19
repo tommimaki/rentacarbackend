@@ -38,6 +38,16 @@ router.get("/car/:carId", async (req, res) => {
   }
 });
 
+// Get all reservations for a user
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const reservations = await Reservation.find({ user: req.params.userId });
+    res.json(reservations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Get all reservations
 router.get("/", async (req, res) => {
   try {

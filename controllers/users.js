@@ -13,13 +13,16 @@ const getUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
+    console.log("Attempting to connect to MongoDB database...");
     const user = await User.findById(req.params.id);
+    console.log("Successfully retrieved user data from database.");
     if (user) {
       res.json(user);
     } else {
       res.status(404).json({ error: "User not found" });
     }
   } catch (error) {
+    console.log("Error retrieving user data from database:", error);
     res.status(500).json({ error: "Error retrieving user" });
   }
 };

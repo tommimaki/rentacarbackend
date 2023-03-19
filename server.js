@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userDataRoute = require("./routes/userDataRoute");
 const carRoutes = require("./routes/carRoutes");
+const reservationRoutes = require("./routes/reservationRoutes");
 
 // Create a new Express application
 const app = express();
@@ -48,6 +49,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userDataRoute);
 //User data for profile
 app.use("/api/cars", carRoutes);
+//for reservations
+app.use("/api/reservations", reservationRoutes);
 
 // Start the server
 const port = process.env.PORT || 3001;

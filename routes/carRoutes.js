@@ -36,6 +36,22 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get a single car by ID
+router.get("/:carId", async (req, res) => {
+  const { carId } = req.params;
+  try {
+    const car = await Car.findById(carId);
+    if (!car) {
+      return res.status(404).json({ message: "Car not found." });
+    }
+    res.status(200).json(car);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving the car.", error });
+  }
+});
+
 // Add a car
 router.post("/", upload.single("image"), async (req, res) => {
   try {
@@ -130,7 +146,9 @@ router.get("/image/:filename", async (req, res) => {
   console.log(`Image requested: ${filename}`);
 
   const db = mongoose.connection.db; // Use the existing connection
-  const bucket = new mongoose.mongo.GridFSBucket(db, { bucketName: "uploads" });
+  const bucket = new mongoose.mongo.GridFSBucket(db, {
+    bucketName: "uploads.files",
+  });
 
   try {
     console.log("Finding the file in the bucket.");

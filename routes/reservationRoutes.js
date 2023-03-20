@@ -31,11 +31,15 @@ router.post("/", async (req, res) => {
   }
 });
 
-// get reservationsby car
+// get reservations by car
 router.get("/car/:carId", async (req, res) => {
   try {
-    const reservations = await Reservation.find({ car: req.params.carId });
+    console.log(
+      `fetching reservations for car with id of: ${req.params.carId}`
+    );
+    const reservations = await Reservation.find({ carId: req.params.carId });
     res.json(reservations);
+    console.log(reservations);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -56,7 +60,7 @@ router.get("/", async (req, res) => {
   try {
     const reservations = await Reservation.find({})
       .populate("user")
-      .populate("car");
+      .populate("carId");
     res.status(200).json(reservations);
   } catch (error) {
     console.error("Error retrieving reservations:", error);

@@ -48,6 +48,7 @@ router.get("/car/:carId", async (req, res) => {
 // Get all reservations for a user
 router.get("/user/:userId", async (req, res) => {
   try {
+    console.log(req.params.userId);
     const reservations = await Reservation.find({ user: req.params.userId });
     res.json(reservations);
   } catch (error) {

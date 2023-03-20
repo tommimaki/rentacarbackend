@@ -49,7 +49,9 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { first_name, last_name, email, phonenumber, password } = req.body;
+  console.log(`updating user ${req.body.email}`);
+  const { first_name, last_name, email, phonenumber, password, isAdmin } =
+    req.body;
   const { id } = req.params;
 
   try {
@@ -63,6 +65,7 @@ const updateUser = async (req, res) => {
       email,
       phonenumber,
       ...(hashedPassword && { password: hashedPassword }),
+      isAdmin,
     };
 
     const result = await User.findByIdAndUpdate(id, updatedUser, { new: true });

@@ -7,11 +7,14 @@ const logger = require("../utils/logger");
 
 router.post("/", async (req, res) => {
   try {
-    const { user, car, startDate, endDate, totalPrice } = req.body;
-    logger.info(`Creating reservation for user ${user} and car ${car}`);
+    const { user, carId, carMake, carModel, startDate, endDate, totalPrice } =
+      req.body;
+    logger.info(`Creating reservation for user ${user} and car ${carMake}`);
     const reservation = new Reservation({
       user,
-      car,
+      carId,
+      carMake,
+      carModel,
       startDate,
       endDate,
       totalPrice,
@@ -81,6 +84,7 @@ router.get("/:reservationId", async (req, res) => {
   }
 });
 
+//add make/model
 // Update a reservation
 router.put("/:reservationId", async (req, res) => {
   try {

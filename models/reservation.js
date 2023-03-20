@@ -7,9 +7,17 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  car: {
+  carId: {
     // type: mongoose.Schema.Types.ObjectId,
     // ref: "Car",
+    type: String,
+    required: true,
+  },
+  carMake: {
+    type: String,
+    required: true,
+  },
+  carModel: {
     type: String,
     required: true,
   },

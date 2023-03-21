@@ -1,24 +1,10 @@
+// server.js
+
 require("dotenv").config();
 const config = require("./utils/config");
-const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cors = require("cors");
 const logger = require("./utils/logger");
-
-//routes
-const userRoutes = require("./routes/userRoutes");
-const authRoutes = require("./routes/authRoutes");
-const userDataRoute = require("./routes/userDataRoute");
-const carRoutes = require("./routes/carRoutes");
-const reservationRoutes = require("./routes/reservationRoutes");
-
-// Create a new Express application
-const app = express();
-//use cors
-app.use(cors());
-// Use body-parser middleware to parse JSON data
-app.use(bodyParser.json());
+const app = require("./app"); // Import your app (from app.js)
 
 // Connect to the MongoDB database
 mongoose
@@ -40,17 +26,6 @@ mongoose.connection.once("open", () => {
   const { GridFSBucket } = require("mongodb");
   global.gfs = new GridFSBucket(mongoose.connection.db);
 });
-
-// Include user routes
-app.use("/api/users", userRoutes);
-// User auth Route for login
-app.use("/api/auth", authRoutes);
-//User data for profile
-app.use("/api/user", userDataRoute);
-//User data for profile
-app.use("/api/cars", carRoutes);
-//for reservations
-app.use("/api/reservations", reservationRoutes);
 
 // Start the server
 const port = process.env.PORT || 3001;

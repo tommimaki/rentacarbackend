@@ -14,8 +14,9 @@ mongoose.connection.once("open", () => {
   global.gfs = new GridFSBucket(mongoose.connection.db);
 });
 
-// Start the server
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+module.exports = server;

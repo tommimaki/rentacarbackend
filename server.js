@@ -5,20 +5,7 @@ const config = require("./utils/config");
 const mongoose = require("mongoose");
 const logger = require("./utils/logger");
 const app = require("./app"); // Import your app (from app.js)
-
-// Connect to the MongoDB database
-mongoose
-  .connect(config.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    logger.info("Connected to MongoDB.");
-  })
-  .catch((error) => {
-    logger.error("Error connecting to MongoDB:", error.message);
-    logger.info(config.MONGODB_URI);
-  });
+const { connectDB } = require("./db");
 
 global.gfs = null;
 

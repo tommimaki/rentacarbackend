@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { connectDB } = require("./db"); // Import connectDB from db.js
 
 //routes
 const userRoutes = require("./routes/userRoutes");
@@ -16,6 +17,9 @@ const app = express();
 
 //use cors
 app.use(cors());
+
+// Connect to the MongoDB database
+connectDB();
 
 // Use body-parser middleware to parse JSON data
 app.use(bodyParser.json());

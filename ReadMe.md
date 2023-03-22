@@ -9,13 +9,7 @@ Fontend here: https://github.com/tommimaki/rentacar
 ### Getting Started
 To get started with the back end, follow these steps:
 
-Clone the repository to your local machine.
-Install dependencies by running npm install.
-Create a .env file and add your MongoDB connection string as MONGODB_URI.
-Run the server with npm start.
-API Endpoints
-Authentication
-POST /api/auth
-Authenticate a user with an email and password.
-
-
+*Clone the repository to your local machine.
+*Install dependencies by running npm install.
+*Create a .env file and add your MongoDB connection string as MONGODB_URI.
+*Run the server with npm start.

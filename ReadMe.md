@@ -1,8 +1,9 @@
 # Car Rental Back End
 
-Hosted on fly io:  https://carback.fly.dev/
+Backend Hosted on fly io: https://carback.fly.dev/
 
-Fontend here: https://github.com/tommimaki/rentacar
+Frontend repo here: https://github.com/tommimaki/rentacar
+Frontend hosted here: https://steady-lollipop-d552c8.netlify.app/
 
 ## This is the back end for a car rental website. <br /> It is built with Node.js and Express.js, and uses MongoDB for data storage. <br /> The back end provides RESTful API endpoints for user authentication, user profile data, car data, and reservation data.
 

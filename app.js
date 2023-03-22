@@ -37,5 +37,11 @@ app.use("/api/cars", carRoutes);
 app.use("/api/reservations", reservationRoutes);
 // Use the new demo login route
 app.use("/api/demo-login", demoLoginRoutes);
+//info
+app.get("/", (req, res) => {
+  res.send(
+    "<h1>Welcome to the Car Rental API</h1><p>Please visit /api/users, /api/auth, /api/user, /api/cars, or /api/reservations for specific endpoints.</p>"
+  );
+});
 
 module.exports = app; // Export the app for use in other files

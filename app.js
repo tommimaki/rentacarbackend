@@ -11,6 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const userDataRoute = require("./routes/userDataRoute");
 const carRoutes = require("./routes/carRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
+const demoLoginRoutes = require("./routes/demoLogin");
 
 // Create a new Express application
 const app = express();
@@ -34,5 +35,7 @@ app.use("/api/user", userDataRoute);
 app.use("/api/cars", carRoutes);
 //for reservations
 app.use("/api/reservations", reservationRoutes);
+// Use the new demo login route
+app.use("/api/demo-login", demoLoginRoutes);
 
 module.exports = app; // Export the app for use in other files

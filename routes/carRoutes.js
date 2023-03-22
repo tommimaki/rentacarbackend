@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const { Readable } = require("stream");
 const express = require("express");
 const router = express.Router();
-const Car = require("../models/Car");
+const Car = require("../models/car");
 const multer = require("multer");
 const { GridFsStorage } = require("multer-gridfs-storage");
 

@@ -4,7 +4,7 @@ require("dotenv").config();
 const config = require("./utils/config");
 const mongoose = require("mongoose");
 const logger = require("./utils/logger");
-const app = require("./app"); // Import your app (from app.js)
+const app = require("./app");
 const { connectDB } = require("./db");
 
 global.gfs = null;

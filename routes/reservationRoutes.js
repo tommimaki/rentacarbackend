@@ -9,6 +9,7 @@ router.post("/", async (req, res) => {
   try {
     const { user, carId, carMake, carModel, startDate, endDate, totalPrice } =
       req.body;
+    logger.info(`Request body: ${JSON.stringify(req.body)}`);
     logger.info(`Creating reservation for user ${user} and car ${carMake}`);
     const reservation = new Reservation({
       user,
